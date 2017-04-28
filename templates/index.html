@@ -63,26 +63,33 @@
             <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                 <div class="mdl-card mdl-cell mdl-cell--12-col">
                     <div class="mdl-card__supporting-text">
-                        <form action="#" class="question_form">
+
+                        <form method="post" action="" class="question_form">
+                            {% csrf_token %}
                             <div class="mdl-typography--text-center">
                                 <h4>Question</h4>
                                 <div class="mdl-textfield mdl-js-textfield is-upgraded">
-                                    <input class="mdl-textfield__input" type="text" id="sample6">
-                                    <label class="mdl-textfield__label" for="sample6">Ask Me...</label>
+
+                                    <input class="mdl-textfield__input" type="text" name="question" id="question" required="required">
+                                    <label class="mdl-textfield__label" for="question">Ask Me...</label>
+
                                 </div>
-                                <label class="mdl-button mdl-js-button" for="sample6">
+                                <label class="mdl-button mdl-js-button" for="question">
                                     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ASK &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     </button>
                                 </label>    
                             </div>
                             <div class="mdl-card__actions">
-                                <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
+
+                                <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch_int_res">
                                     <span class="mdl-switch__label">Show Intermediate Processing Information</span>
-                                    <input type="checkbox" id="switch-1" class="mdl-switch__input">
+                                    <input type="checkbox" id="switch_int_res" name="switch_int_res" class="mdl-switch__input" value="True">
                                 </label>
+
                             </div>
                         </form>
+
                     </div>
                     <div class="mdl-card__actions">
                         <a href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Help</a>

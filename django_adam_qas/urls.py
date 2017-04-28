@@ -21,6 +21,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^features/', features_view, name='features'),
-    url(r'^about/', about_view, name='about')
-
+    url(r'^about/', about_view, name='about'),
+    url(r'^answer/', HomeView.as_view(), name='answer'),
 ]
