@@ -18,3 +18,11 @@ class HomeView(views.View):
         if question_form.is_valid():
             return HttpResponseRedirect('/success/')
         return render(request, self.template_name, {'question_form': question_form})
+
+
+def features_view(request):
+    return render(request, 'features.html', {})
+
+
+def about_view(request):
+    return render(request, 'about.html', {})
