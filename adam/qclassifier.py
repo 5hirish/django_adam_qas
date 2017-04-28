@@ -89,12 +89,11 @@ def get_question_predict_data(question, en_nlp):
     return dta
 
 
-def classify_question(question):
+def classify_question(en_nlp, question):
 
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     static_files = os.path.join(BASE_DIR, "static")
 
-    en_nlp = spacy.load("en")
     dta = pandas.read_csv(static_files+'/data/qclassifier_trainer.csv', sep='|')
     # get_data_info(dta)
 

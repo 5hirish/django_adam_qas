@@ -2,12 +2,15 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django import views
 from .qclassifier import classify_question
+import spacy
 # Create your views here.
 
 
 def answer_question(question_str):
 
-    answer = classify_question(question_str)
+    en_nlp = spacy.load("en")
+
+    answer = classify_question(en_nlp, question_str)
     return answer
 
 
