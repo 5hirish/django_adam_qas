@@ -1,7 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django import views
+from .qclassifier import classify_question
 # Create your views here.
+
+
+def answer_question(question_str):
+
+    answer = classify_question(question_str)
+    return answer
 
 
 class HomeView(views.View):
@@ -18,6 +25,9 @@ class HomeView(views.View):
         print("Intermediate Results:", show_res)
 
         if not question_str == "":
+
+            answer_question(question_str)
+
             return HttpResponseRedirect('/answer/')
         return render(request, self.template_name, {})
 
