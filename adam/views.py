@@ -26,9 +26,9 @@ class HomeView(views.View):
 
         if not question_str == "":
 
-            answer_question(question_str)
+            answer = answer_question(question_str)
 
-            return HttpResponseRedirect('/answer/')
+            return render(request, self.template_name, {'answer': answer})
         return render(request, self.template_name, {})
 
 

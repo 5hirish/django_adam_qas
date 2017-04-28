@@ -4,6 +4,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import LinearSVC
 import pandas
 import spacy
+import os
 
 
 def get_data_info(dta):
@@ -88,10 +89,13 @@ def get_question_predict_data(question, en_nlp):
     return dta
 
 
-def classify_question(input_question):
+def classify_question(question):
+
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    static_files = os.path.join(BASE_DIR, "static")
 
     en_nlp = spacy.load("en")
-    dta = pandas.read_csv('corpus/qclassifier_trainer.csv', sep='|')
+    dta = pandas.read_csv(static_files+'/data/qclassifier_trainer.csv', sep='|')
     # get_data_info(dta)
 
     y = dta.pop('Class')
@@ -104,7 +108,7 @@ def classify_question(input_question):
 
     # print(len(column_list))
 
-    question = 'Who is Linus Torvalds ?'
+    # question = 'Who is Linus Torvalds ?'
     # question = 'What is the colour of apple ?'
 
     question_data = get_question_predict_data(question, en_nlp)
