@@ -10,8 +10,9 @@ def answer_question(question_str):
 
     en_nlp = spacy.load("en_core_web_md")       # Current : en_core_web_md
 
-    answer = classify_question(en_nlp, question_str)
-    return answer
+    qclass = classify_question(en_nlp, question_str)
+    
+    return qclass
 
 
 class HomeView(views.View):
