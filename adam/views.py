@@ -13,8 +13,10 @@ def answer_question(question_str):
 
     qclass = classify_question(en_nlp, question_str)
     keywords = extract_features(en_nlp, question_str, qclass)
-    
-    return qclass
+
+    intermediate_res = qclass + "\n" + str(keywords)
+
+    return intermediate_res
 
 
 class HomeView(views.View):
