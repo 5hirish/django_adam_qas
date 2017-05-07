@@ -11,23 +11,25 @@ Scoring and selecting keywords: All candidates can be scored by either combining
 
 '''
 
-import spacy
-
 
 def get_detail(sent):
     for token in sent:
         print(token.text, token.lemma_, token.tag_, token.ent_type_, token.dep_, token.head)
 
 
-def get_compound_nouns(token, token_text):
+def get_compound_nouns(token, token_text, en_doc):
+    ptoken = token
 
-    for child in token.children:
+    print(token.text, token.dep_)
+    while token.i > 0 and en_doc[token.i - 1].dep_ == "compound":
+        token_text = en_doc[token.i - 1].text + " " + token_text
+        token = en_doc[token.i - 1]
 
-        # print(child.text, child.dep_)
+    token = ptoken
 
-        if child.dep_ == "compound":
-            token_text = child.text + " " + token_text
-            token_text = get_compound_nouns(child, token_text)
+    while token.i < len(en_doc) - 1 and en_doc[token.i + 1].dep_ == "compound":
+        token_text = token_text + " " + en_doc[token.i + 1].text
+        token = en_doc[token.i + 1]
 
     return token_text
 
@@ -41,18 +43,19 @@ def get_adj_phrase(token, token_text):
     return token_text
 
 
-def get_root_phrase(token):
+def get_root_phrase(token, keywords):
     for child in token.children:
         if child.dep_ == "acomp" or child.dep_ == "xcomp" or child.dep_ == "ccomp":
             keywords.append(child.text)
+    return keywords
 
 
-def get_noun_chunk(sent, en_doc):
+def get_noun_chunk(sent, en_doc, keywords):
     root = ""
     for token in sent:
         if token.tag_ == "NN" or token.tag_ == "NNP" or token.tag_ == "NNPS" or token.tag_ == "NNS":
             if token.dep_ != "compound":
-                token_text = get_compound_nouns(token, token.text)
+                token_text = get_compound_nouns(token, token.text, en_doc)
                 token_text = get_adj_phrase(token, token_text)
                 keywords.append(token_text)
 
@@ -68,28 +71,21 @@ def get_noun_chunk(sent, en_doc):
 
         if token.dep_ == "ROOT":
             root = token.text
-            get_root_phrase(token)
+            keywords = get_root_phrase(token, keywords)
 
-    return root
-
-
-# text = "What team did baseball's St. Louis Browns become ?"
-# text = "What contemptible scoundrel stole the cork from my lunch ?"
-# text = "What fowl grabs the spotlight after the Chinese Year of the Monkey ?"
-# text = "What is an annotated bibliography ?"
-# text = "What is the origin of the name ' Scarlett ' ?"
-# text = "How much would it cost to purchase a 2-foot-square party tent , with sides , ?"
-text = input("Q:")
-
-en_nlp = spacy.load('en_core_web_md')
-# print(spacy.info('en_core_web_md')) # core_web_sm         en_core_web_md
-en_doc = en_nlp(u'' + text)
-keywords = []
-
-for sent in en_doc.sents:
-    get_detail(sent)
-    root = get_noun_chunk(sent, en_doc)
-    keywords.append(root)
+    return root, keywords
 
 
-print("\n", keywords)
+def extract_features(en_nlp, question, qclass):
+
+    en_doc = en_nlp(u'' + question)
+    keywords = []
+
+    for sent in en_doc.sents:
+        get_detail(sent)
+        root, keywords = get_noun_chunk(sent, en_doc, keywords)
+        keywords.append(root)
+
+    print("\n", keywords)
+
+    return keywords
