@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django import views
 from .qclassifier import classify_question
+from .feature_extractor import extract_features
+from .query_const import generate_query
 import spacy
 # Create your views here.
 
@@ -10,8 +12,13 @@ def answer_question(question_str):
 
     en_nlp = spacy.load("en_core_web_md")       # Current : en_core_web_md
 
-    answer = classify_question(en_nlp, question_str)
-    return answer
+    qclass = classify_question(en_nlp, question_str)
+    keywords = extract_features(en_nlp, question_str, qclass)
+    query = generate_query(en_nlp, question_str, keywords)
+
+    intermediate_res = str(qclass) + "\n" + str(keywords) + "\n" + str(query)
+
+    return intermediate_res
 
 
 class HomeView(views.View):
