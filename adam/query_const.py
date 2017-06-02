@@ -5,9 +5,6 @@ A conjunction is a part of speech that is used to connect words, phrases, clause
 
 '''
 
-import spacy
-import csv
-
 
 def get_detail(sent):
     for token in sent:
@@ -56,13 +53,11 @@ def get_query(sent, features):
     return [features, conjunct_list, neg_list, mark_list]
 
 
-def generate_query(en_nlp, question, features):
-
-    en_doc = en_nlp(u'' + question)
+def construct_query(features, en_doc):
     query = []
+
     for sent in en_doc.sents:
         # get_detail(sent)
         query = get_query(sent, features)
-        print(query)
 
     return query

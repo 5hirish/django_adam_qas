@@ -3,8 +3,8 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import LinearSVC
 import pandas
-import spacy
 import os
+import spacy
 
 
 def get_data_info(dta):
@@ -29,7 +29,7 @@ def transform_data_matrix(X_train, X_predict):
 
     for col in X_trans_columns:
         if col not in X_train:
-            trans_data_train[col] = [0 * len(X_train.index)]
+            trans_data_train[col] = [0 for i in range(len(X_train.index))]
         else:
             trans_data_train[col] = list(X_train[col])
 
@@ -64,8 +64,7 @@ def support_vector_machine(X_train, y, X_predict):
     return prediction
 
 
-def get_question_predict_data(question, en_nlp):
-    en_doc = en_nlp(u'' + question)
+def get_question_predict_data(en_doc):
     sent_list = list(en_doc.sents)
     sent = sent_list[0]
     wh_bi_gram = []
@@ -89,7 +88,7 @@ def get_question_predict_data(question, en_nlp):
     return dta
 
 
-def classify_question(en_nlp, question):
+def classify_question(en_doc):
 
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     static_files = os.path.join(BASE_DIR, "static")
@@ -98,30 +97,14 @@ def classify_question(en_nlp, question):
     # get_data_info(dta)
 
     y = dta.pop('Class')
-    dta.pop('Question')
+    dta.pop('#Question')
     dta.pop('WH-Bigram')
 
     X_train = pre_process(dta)
 
-    # print(X_train.shape)
-
-    # print(len(column_list))
-
-    # question = 'Who is Linus Torvalds ?'
-    # question = 'What is the colour of apple ?'
-
-    question_data = get_question_predict_data(question, en_nlp)
+    question_data = get_question_predict_data(en_doc)
     X_predict = pre_process(question_data)
-    # print(X_predict)
-    # print(X_train)
 
     X_train, X_predict = transform_data_matrix(X_train, X_predict)
 
-    # print(naive_bayes_classifier(X_train, y, X_predict))
-    question_class = support_vector_machine(X_train, y, X_predict)
-    print(question_class)
-    return question_class
-    # ValueError: operands could not be broadcast together with shapes (1,4) (66,)
-    # ValueError: X has 4 features per sample; expecting 1228
-    # Training - [5452 rows x 66 columns]
-    # Predict - [1 rows x 4 columns]
+    return str(support_vector_machine(X_train, y, X_predict))

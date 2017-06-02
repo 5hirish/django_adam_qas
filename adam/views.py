@@ -1,24 +1,27 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django import views
-from .qclassifier import classify_question
-from .feature_extractor import extract_features
-from .query_const import generate_query
-import spacy
+from .qa_init import answer_question
+from time import time
+from spacy import load
 # Create your views here.
 
 
-def answer_question(question_str):
+def get_answer(question_str):
 
-    en_nlp = spacy.load("en_core_web_md")       # Current : en_core_web_md
+    start_time = time()
 
-    qclass = classify_question(en_nlp, question_str)
-    keywords = extract_features(en_nlp, question_str, qclass)
-    query = generate_query(en_nlp, question_str, keywords)
+    answer_output = answer_question(question_str)
 
-    intermediate_res = str(qclass) + "\n" + str(keywords) + "\n" + str(query)
+    end_time = time()
 
-    return intermediate_res
+    total_time = end_time - start_time
+
+    print("Total time :", total_time)
+
+    exec_time = "Time: " + str(total_time) + " secs."
+
+    return answer_output, exec_time
 
 
 class HomeView(views.View):
@@ -36,9 +39,9 @@ class HomeView(views.View):
 
         if not question_str == "":
 
-            answer = answer_question(question_str)
+            answer, exec_time = get_answer(question_str)
 
-            return render(request, self.template_name, {'answer': answer})
+            return render(request, self.template_name, {'answer': answer, 'time': exec_time})
         return render(request, self.template_name, {})
 
 
