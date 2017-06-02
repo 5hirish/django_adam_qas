@@ -10,7 +10,7 @@ import spacy
 
 def answer_question(question_str):
 
-    en_nlp = spacy.load("en_core_web_md")       # Current : en_core_web_md
+    en_nlp = spacy.load("en")       # Current : en_core_web_md
 
     qclass = classify_question(en_nlp, question_str)
     keywords = extract_features(en_nlp, question_str, qclass)
