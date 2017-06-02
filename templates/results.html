@@ -49,19 +49,25 @@
             <a href="/about/" class="mdl-layout__tab">About</a>
         </div>
     </header>
+
     <main class="mdl-layout__content">
+
+        {% for res in results %}
+
         <div class="mdl-layout__tab-panel is-active" id="about">
             <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                 <div class="mdl-card mdl-cell mdl-cell--12-col">
                     <div class="mdl-card__supporting-text">
-                        <p>Intermediate Results...</p>
-                    </div>
-                    <div class="mdl-card__actions">
-                        <a href="/" class="mdl-button">Home</a>
+                        <p>{{ res }}</p>
                     </div>
                 </div>
             </section>
         </div>
+
+        {% endfor %}
+
+        <br><br>
+
         <footer class="mdl-mega-footer">
             <div class="mdl-mega-footer--bottom-section">
                 <div class="mdl-logo">
