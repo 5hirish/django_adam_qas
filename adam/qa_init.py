@@ -1,5 +1,6 @@
 import spacy
 import warnings
+from nltk import Tree
 
 from .qclassifier import classify_question
 from .feature_extractor import extract_features
@@ -7,6 +8,23 @@ from .query_const import construct_query
 from .fetch_wiki import fetch_wiki
 from .doc_scorer import rank_docs
 from .candidate_ans import get_candidate_answers
+
+
+def tok_format_dep(tok):
+    return "_".join([tok.orth_, tok.dep_])
+
+
+def to_nltk_tree_dep(node):
+    if node.n_lefts + node.n_rights > 0:
+        return Tree(tok_format_dep(node), [to_nltk_tree_dep(child) for child in node.children])
+    else:
+        return tok_format_dep(node)
+
+
+def construct_tree(en_doc):
+    for word in en_doc.sents:
+        # print(word.text, '-', word.lemma_, '(', word.tag_, ')', word.pos_)
+        to_nltk_tree_dep(word.root).pretty_print()
 
 
 def answer_question(input_question):
@@ -19,6 +37,8 @@ def answer_question(input_question):
 
     en_doc = en_nlp(u'' + input_question)
     intermediate_results.append("Question: " + input_question)
+
+    # construct_tree(en_doc)
 
     question_class = classify_question(en_doc)
     intermediate_results.append("Class: " + question_class)
