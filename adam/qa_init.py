@@ -25,11 +25,11 @@ def answer_question(input_question):
     print("Class:", question_class)
 
     question_keywords = extract_features(question_class, en_doc)
-    intermediate_results.append("Question Features: " + question_keywords)
+    intermediate_results.append("Question Features: " + str(question_keywords))
     print("Question Features:", question_keywords)
 
     question_query = construct_query(question_keywords, en_doc)
-    intermediate_results.append("Question Query: " + question_query)
+    intermediate_results.append("Question Query: " + str(question_query))
     print("Question Query:", question_query)
 
     print("Fetching Knowledge source...")
@@ -45,11 +45,11 @@ def answer_question(input_question):
     # Anaphora Resolution
 
     ranked_wiki_docs = rank_docs(question_keywords)
-    intermediate_results.append("Ranked Pages: " + ranked_wiki_docs)
+    intermediate_results.append("Ranked Pages: " + str(ranked_wiki_docs))
     print("Ranked Pages:", ranked_wiki_docs)
 
     candidate_answers, split_keywords = get_candidate_answers(question_query, ranked_wiki_docs, en_nlp)
-    intermediate_results.append("Candidate Answer: " + "(" + str(len(candidate_answers)) + ") " + candidate_answers)
+    intermediate_results.append("Candidate Answer: " + "(" + str(len(candidate_answers)) + ") " + str(candidate_answers))
     print("Candidate Answer:", "(" + str(len(candidate_answers)) + ")", candidate_answers)
 
     print("Answer:", " ".join(candidate_answers))
@@ -58,6 +58,8 @@ def answer_question(input_question):
     intermediate_results.append("Final Answer: " + answer)
 
     return answer, intermediate_results
+
+# What's the only color Johnny Cash wears on stage ?
 
 """
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
