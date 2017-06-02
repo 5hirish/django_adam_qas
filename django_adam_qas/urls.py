@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from adam.views import HomeView, features_view, about_view
+from adam.views import HomeView, features_view, about_view, results_view
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^features/', features_view, name='features'),
     url(r'^about/', about_view, name='about'),
     url(r'^answer/', HomeView.as_view(), name='answer'),
+    url(r'^results', results_view, name='results')
 ]

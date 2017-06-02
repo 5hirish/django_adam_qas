@@ -1,0 +1,82 @@
+
+{% load staticfiles %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+    <title>ADAM</title>
+
+    {% load static %}
+
+    <link rel="shortcut icon" href="{% get_static_prefix %}images/favicon.png">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.deep_purple-pink.min.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}style/styles.css">
+    <style>
+        #view-source {
+            position: fixed;
+            display: block;
+            right: 0;
+            bottom: 0;
+            margin-right: 40px;
+            margin-bottom: 40px;
+            z-index: 900;
+        }
+    </style>
+</head>
+<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        </div>
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+            <h3>ADAM - Question Answering System</h3>
+        </div>
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        </div>
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+            <a href="/" class="mdl-layout__tab">Dashboard</a>
+            <a href="/results/" class="mdl-layout__tab is-active">Results</a>
+            <a href="/features/" class="mdl-layout__tab">Features</a>
+            <a href="/about/" class="mdl-layout__tab">About</a>
+        </div>
+    </header>
+    <main class="mdl-layout__content">
+        <div class="mdl-layout__tab-panel is-active" id="about">
+            <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+                <div class="mdl-card mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card__supporting-text">
+                        <p>Intermediate Results...</p>
+                    </div>
+                    <div class="mdl-card__actions">
+                        <a href="/" class="mdl-button">Home</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="mdl-mega-footer">
+            <div class="mdl-mega-footer--bottom-section">
+                <div class="mdl-logo">
+                    More Information
+                </div>
+                <ul class="mdl-mega-footer--link-list">
+                    <li><a href="https://developers.google.com/web/starter-kit/">Web Starter Kit</a></li>
+                    <li><a href="#">Help</a></li>
+                    <li><a href="#">Privacy and Terms</a></li>
+                </ul>
+            </div>
+        </footer>
+    </main>
+</div>
+<a href="https://github.com/google/material-design-lite/blob/mdl-1.x/templates/text-only/" target="_blank" id="view-source" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">View Source</a>
+<script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+</body>
+</html>

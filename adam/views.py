@@ -11,7 +11,7 @@ def get_answer(question_str):
 
     start_time = time()
 
-    answer_output = answer_question(question_str)
+    answer_output, intermediate_results = answer_question(question_str)
 
     end_time = time()
 
@@ -29,9 +29,13 @@ class HomeView(views.View):
     template_name = 'index.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {})
+        answer = "Ask me a question and I'll answer..."
+        exec_time = "Time: 00.00 secs."
+        return render(request, self.template_name, {'answer': answer, 'time': exec_time})
 
     def post(self, request, *args, **kwargs):
+        answer = "Ask me a question and I'll answer..."
+        exec_time = "Time: 00.00 secs."
         question_str = request.POST.get("question", "")
         show_res = request.POST.get("switch_int_res", "False")
         print("Question:", question_str)
@@ -42,11 +46,15 @@ class HomeView(views.View):
             answer, exec_time = get_answer(question_str)
 
             return render(request, self.template_name, {'answer': answer, 'time': exec_time})
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, {'answer': answer, 'time': exec_time})
 
 
 def features_view(request):
     return render(request, 'features.html', {})
+
+
+def results_view(request):
+    return render(request, 'results.html', {})
 
 
 def about_view(request):
